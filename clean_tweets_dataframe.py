@@ -17,12 +17,12 @@ class Clean_Tweets:
         df.drop(unwanted_rows , inplace=True)
         df = df[df['polarity'] != 'polarity']
         
-        return self.df
+        return df
     def drop_duplicate(self, df:pd.DataFrame)->pd.DataFrame:
         """
         drop duplicate rows
         """
-        self.df = df.drop_duplicates(subset='original_text')
+        df = df.drop_duplicates(subset='original_text')
         
         
         return df
