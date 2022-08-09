@@ -16,7 +16,7 @@ def read_json(json_file: str)->list:
     """
     
     tweets_data = []
-    for tweets in open(json_file,'r'):
+    for tweets in open(json_file,'r', encoding='utf8'):
         tweets_data.append(json.loads(tweets))
     
     
@@ -197,7 +197,7 @@ if __name__ == "__main__":
     # required column to be generated you should be creative and add more features
     columns = ['created_at', 'source', 'original_text','clean_text', 'sentiment','polarity','subjectivity', 'lang', 'favorite_count', 'retweet_count', 
     'original_author', 'screen_count', 'followers_count','friends_count','possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
-    _, tweet_list = read_json("Twitter-Data-Analysis/data/africa_twitter_data.json")
+    _, tweet_list = read_json("./data//africa_twitter_data.json")
     tweet = TweetDfExtractor(tweet_list)
     tweet_df = tweet.get_tweet_df() 
 

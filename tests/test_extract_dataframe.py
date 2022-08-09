@@ -11,7 +11,7 @@ from extract_dataframe import TweetDfExtractor
 # we will need about 5 tweet samples. 
 # Create a sample not more than 10 tweets and place it in a json file.
 # Provide the path to the samples tweets file you created below
-sampletweetsjsonfile = "Twitter-Data-Analysis/data/africa_twitter_data.json"   #put here the path to where you placed the file e.g. ./sampletweets.json. 
+sampletweetsjsonfile = "./data/africa_twitter_data.json"   #put here the path to where you placed the file e.g. ./sampletweets.json. 
 
 _, tweet_list = read_json(sampletweetsjsonfile)
 
@@ -58,11 +58,9 @@ class TestTweetDfExtractor(unittest.TestCase):
         )
 
     def test_find_full_text(self):
-        text = ["#Pelosi airplane landed safely in #Taiwan \ud83c\uddf9\ud83c\uddfc  \n1) - Both \ud83c\udde8\ud83c\uddf3 &amp;  \ud83c\uddfa\ud83c\uddf8 are playing \"win win\" on financial markets. 2) - Taiwan may be the future Asian   Cuba  3) - \ud83c\uddfa\ud83c\uddf8 &amp; \ud83c\udde8\ud83c\uddf3 need an Asian #NATO / #5G\nWhat's your thoughts?",
-        "Watch the video of the beginning of the Chinese bombing of Taiwan during Pelosi visit from here : https://t.co/twah6WU4fZ\n\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\u0640\n#Pelosi #\u30de\u30c4\u30b3\u306e\u77e5\u3089\u306a\u3044\u4e16\u754c #Yediiklim #BadDecisionsTrailer1 #LawnBowls #\u795d_CALL119_MV900\u4e07\u56de #\u0e21\u0e32\u0e01\u0e2d\u0e14\u0e01\u0e31\u0e19\u0e19\u0e30\u0e0b\u0e35\u0e1e\u0e24\u0e01\u0e29\u0e4c https://t.co/m4CXfyZRS7",
-        "#Pelosi \n#Taipei \n#taiwan\n#XiJinping \n#China \nOn a verge of another war https://t.co/DuqDiSnWcd",
-        "#HOBIPALOOZA #LaAcademiaExpulsion #WEURO2022 #jhopeAtLollapalooza #SuzukiPakistan #Fantastico #Taiwan #breastfeeding #Kosovo #BORNPINK  strong \u270d\ufe0f\ud83d\udc9c https://t.co/GtZeNL24rm",
-        "#Pelosi\n#china\nChina Time \u270c\ufe0f https://t.co/tEDjzTlszu"]
+        text = ["#Pelosi airplane landed safely in #Taiwan \ud83c\uddf9\ud83c\uddfc  \n1) - Both \ud83c\udde8\ud83c\uddf3 &amp;  \ud83c\uddfa\ud83c\uddf8 are playing \"win win\" on financial markets. 2) - Taiwan may be the future Asian   Cuba  3) - \ud83c\uddfa\ud83c\uddf8 &amp; \ud83c\udde8\ud83c\uddf3 need an Asian #NATO / #5G\nWhat's your thoughts?", "Watch the video of the beginning of the Chinese bombing of Taiwan during Pelosi visit from here : https://t.co/twah6WU4fZ\nــــــــــــــــــــــــــ\n#Pelosi #マツコの知らない世界 #Yediiklim #BadDecisionsTrailer1 #LawnBowls #祝_CALL119_MV900万回 #มากอดกันนะซีพฤกษ์ https://t.co/m4CXfyZRS7", "#Pelosi \n#Taipei \n#taiwan\n#XiJinping \n#China \nOn a verge of another war https://t.co/DuqDiSnWcd",
+        "#HOBIPALOOZA #LaAcademiaExpulsion #WEURO2022 #jhopeAtLollapalooza #SuzukiPakistan #Fantastico #Taiwan #breastfeeding #Kosovo #BORNPINK  strong ✍️💜 https://t.co/GtZeNL24rm",
+        "#Pelosi\n#china\nChina Time ✌️ https://t.co/tEDjzTlszu",]
 
         self.assertEqual(self.df.find_full_text(), text)
 
@@ -70,7 +68,7 @@ class TestTweetDfExtractor(unittest.TestCase):
         self.assertEqual(
             self.df.find_sentiments(self.df.find_full_text()),
             (
-                [0.0, 0.0, 0.0, 0.0, 0.0], [0.0, 0.0, 0.0, 0.0, 0.0]
+                [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]
             )
         )
 
@@ -88,7 +86,7 @@ class TestTweetDfExtractor(unittest.TestCase):
         self.assertEqual(self.df.find_friends_count(), friends_count)
 
     def test_find_is_sensitive(self):
-        self.assertEqual(self.df.is_sensitive(), ['','','','',''])
+        self.assertEqual(self.df.is_sensitive(), [' ',' ',' ',' ',' '])
 
 
     # def test_find_hashtags(self):

@@ -63,7 +63,7 @@ class Clean_Tweets:
 
 
 if __name__ == "__main__":
-    tweets_json = pd.read_json("data/africa_twitter_data.json")
+    tweets_json = pd.read_json("./data/africa_twitter_data.json")
     clean_df = Clean_Tweets(tweets_json)
     df = clean_df.drop_unwanted_column(clean_df.df)
     df = clean_df.drop_duplicate(df)
@@ -72,5 +72,5 @@ if __name__ == "__main__":
     df = clean_df.remove_non_english_tweets(df)
 
     df.to_csv('preprocessed_tweet_data.csv', index=False)
-    df.to_json('data/preprocessed_tweet_data.json')
+    df.to_json('./data/preprocessed_tweet_data.json')
 
