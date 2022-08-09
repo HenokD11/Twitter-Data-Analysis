@@ -44,7 +44,7 @@ class Clean_Tweets:
         convert columns like polarity, subjectivity, retweet_count
         favorite_count etc to numbers
         """
-        df['polarity'] = pd.pd.to_numeric(df['polarity'], errors='coerce')
+        df['polarity'] = pd.to_numeric(df['polarity'], errors='coerce')
 
         df['retweet_count'] = pd.to_numeric(df['retweet_count'], errors='coerce')
         
@@ -60,4 +60,17 @@ class Clean_Tweets:
         df = df.query("lang == 'en' ")
         
         return df
+
+
+if __name__ == "__main__":
+    tweets_json = pd.read_json("data/africa_twitter_data.json")
+    clean_df = Clean_Tweets(tweets_json)
+    df = clean_df.drop_unwanted_column(clean_df.df)
+    df = clean_df.drop_duplicate(df)
+    df = clean_df.convert_to_numbers(df)
+    df = clean_df.convert_to_datetime(df)
+    df = clean_df.remove_non_english_tweets(df)
+
+    df.to_csv('preprocessed_tweet_data.csv', index=False)
+    df.to_json('data/preprocessed_tweet_data.json')
 
