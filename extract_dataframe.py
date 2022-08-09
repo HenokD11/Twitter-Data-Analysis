@@ -163,7 +163,6 @@ class TweetDfExtractor:
 
     
         
-        
     def get_tweet_df(self, save=False)->pd.DataFrame:
         """required column to be generated you should be creative and add more features"""
         
