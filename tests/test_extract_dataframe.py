@@ -12,7 +12,7 @@ from extract_dataframe import TweetDfExtractor
 # Create a sample not more than 10 tweets and place it in a json file.
 # Provide the path to the samples tweets file you created below
 sampletweetsjsonfile = "data/africa_twitter_data.json"   #put here the path to where you placed the file e.g. ./sampletweets.json. 
-print(sampletweetsjsonfile)
+
 _, tweet_list = read_json(sampletweetsjsonfile)
 
 columns = [
