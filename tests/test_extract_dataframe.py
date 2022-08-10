@@ -58,9 +58,11 @@ class TestTweetDfExtractor(unittest.TestCase):
         )
 
     def test_find_full_text(self):
-        text = ["#Pelosi airplane landed safely in #Taiwan \ud83c\uddf9\ud83c\uddfc  \n1) - Both \ud83c\udde8\ud83c\uddf3 &amp;  \ud83c\uddfa\ud83c\uddf8 are playing \"win win\" on financial markets. 2) - Taiwan may be the future Asian   Cuba  3) - \ud83c\uddfa\ud83c\uddf8 &amp; \ud83c\udde8\ud83c\uddf3 need an Asian #NATO / #5G\nWhat's your thoughts?", "Watch the video of the beginning of the Chinese bombing of Taiwan during Pelosi visit from here : https://t.co/twah6WU4fZ\nــــــــــــــــــــــــــ\n#Pelosi #マツコの知らない世界 #Yediiklim #BadDecisionsTrailer1 #LawnBowls #祝_CALL119_MV900万回 #มากอดกันนะซีพฤกษ์ https://t.co/m4CXfyZRS7", "#Pelosi \n#Taipei \n#taiwan\n#XiJinping \n#China \nOn a verge of another war https://t.co/DuqDiSnWcd",
+        text = ["#Pelosi airplane landed safely in #Taiwan \ud83c\uddf9\ud83c\uddfc  \n1) - Both \ud83c\udde8\ud83c\uddf3 &amp;  \ud83c\uddfa\ud83c\uddf8 are playing \"win win\" on financial markets. 2) - Taiwan may be the future Asian   Cuba  3) - \ud83c\uddfa\ud83c\uddf8 &amp; \ud83c\udde8\ud83c\uddf3 need an Asian #NATO / #5G\nWhat's your thoughts?", 
+        "Watch the video of the beginning of the Chinese bombing of Taiwan during Pelosi visit from here : https://t.co/twah6WU4fZ\nــــــــــــــــــــــــــ\n#Pelosi #マツコの知らない世界 #Yediiklim #BadDecisionsTrailer1 #LawnBowls #祝_CALL119_MV900万回 #มากอดกันนะซีพฤกษ์ https://t.co/m4CXfyZRS7", 
+        "#Pelosi \n#Taipei \n#taiwan\n#XiJinping \n#China \nOn a verge of another war https://t.co/DuqDiSnWcd",
         "#HOBIPALOOZA #LaAcademiaExpulsion #WEURO2022 #jhopeAtLollapalooza #SuzukiPakistan #Fantastico #Taiwan #breastfeeding #Kosovo #BORNPINK  strong ✍️💜 https://t.co/GtZeNL24rm",
-        "#Pelosi\n#china\nChina Time ✌️ https://t.co/tEDjzTlszu",]
+        "#Pelosi\n#china\nChina Time ✌️ https://t.co/tEDjzTlszu"]
 
         self.assertEqual(self.df.find_full_text(), text)
 
@@ -86,7 +88,7 @@ class TestTweetDfExtractor(unittest.TestCase):
         self.assertEqual(self.df.find_friends_count(), friends_count)
 
     def test_find_is_sensitive(self):
-        self.assertEqual(self.df.is_sensitive(), [' ',' ',' ',' ',' '])
+        self.assertEqual(self.df.is_sensitive(), [None, None, None, None, None])
 
 
     # def test_find_hashtags(self):
