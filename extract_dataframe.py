@@ -36,19 +36,24 @@ class TweetDfExtractor:
 
     # an example function
     def find_statuses_count(self)->list:
+
         statuses_count = []
 
         for tweet in self.tweets_list:
             statuses_count.append(tweet['user']['statuses_count'])
-            return statuses_count
+
+        return statuses_count
         
     def find_full_text(self)->list:
+
         text = []
 
         for tweet in self.tweets_list:
-            text.append(tweet['text'])
+            if 'retweeted_status' in tweet.keys() and 'extended_tweet' in tweet['retweeted_status'].keys():
+                text.append(tweet['retweeted_status']['extended_tweet']['full_text'])
+            else: text.append('Empty')
 
-            return text
+        return text
        
     
     def find_sentiments(self, text)->list:
@@ -65,12 +70,13 @@ class TweetDfExtractor:
         return polarity, subjectivity
 
     def find_created_time(self)->list:
-       
-       created_at = []
 
-       for tweet in self.tweets_list:
-        created_at.append(tweet['created_at'])
+        created_at = []
+        
+        for tweet in self.tweets_list:
 
+            created_at.append(tweet['created_at'])
+        
         return created_at
 
     def find_source(self)->list:
@@ -146,12 +152,27 @@ class TweetDfExtractor:
     def find_mentions(self)->list:
         mentions = []
 
-        for tweet in self.tweets_list:
+        try:
 
-            mentions.append(", ".join([item["screen_name"] for item in tweet["entities"]["user_mentions"]]))
+            for tweet in self.tweets_list:
+
+                mentions.append(", ".join([item["screen_name"] for item in tweet["entities"]["user_mentions"]]))
+
+        except TypeError:
+            mentions = ''
 
         return mentions
 
+    def find_lang(self)->list:
+        try:
+
+            lang = [x['lang'] for x in self.tweets_list]
+
+        except TypeError:
+
+            lang = ''
+        
+        return lang
 
     def find_location(self)->list:
         try:
@@ -161,8 +182,6 @@ class TweetDfExtractor:
         
         return location
 
-    
-        
     def get_tweet_df(self, save=False)->pd.DataFrame:
         """required column to be generated you should be creative and add more features"""
         
@@ -183,8 +202,10 @@ class TweetDfExtractor:
         hashtags = self.find_hashtags()
         mentions = self.find_mentions()
         location = self.find_location()
+
         data = zip(created_at, source, text, polarity, subjectivity, lang, fav_count, retweet_count, screen_name, follower_count, friends_count, sensitivity, hashtags, mentions, location)
         df = pd.DataFrame(data=data, columns=columns)
+
 
         if save:
             df.to_csv('processed_tweet_data.csv', index=False)
@@ -197,7 +218,7 @@ if __name__ == "__main__":
     # required column to be generated you should be creative and add more features
     columns = ['created_at', 'source', 'original_text','clean_text', 'sentiment','polarity','subjectivity', 'lang', 'favorite_count', 'retweet_count', 
     'original_author', 'screen_count', 'followers_count','friends_count','possibly_sensitive', 'hashtags', 'user_mentions', 'place', 'place_coord_boundaries']
-    _, tweet_list = read_json("Twitter-Data-Analysis/data/africa_twitter_data.json")
+    _, tweet_list = read_json("./data/africa_twitter_data - Copy.json")
     tweet = TweetDfExtractor(tweet_list)
     tweet_df = tweet.get_tweet_df() 
 
