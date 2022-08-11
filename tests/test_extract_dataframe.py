@@ -95,11 +95,11 @@ class TestTweetDfExtractor(unittest.TestCase):
         self.assertEqual(self.df.find_friends_count(), friends_count)
 
     def test_find_is_sensitive(self) -> list:
-        self.assertEqual(self.df.is_sensitive(), None)
+        self.assertEqual(self.df.is_sensitive(), ['', False, False, False, False])
 
     def test_find_location(self):
         """Test find location module."""
-        self.assertEqual(self.df.find_location(), '')
+        self.assertEqual(self.df.find_location(), ['Algerie', '', 'Algerie', 'Chlef', 'Algerie'])
 
     def test_find_retweet_count(self):
         """Test find retweet count module."""
