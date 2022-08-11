@@ -10,13 +10,14 @@ class Clean_Tweets:
         
     def drop_unwanted_column(self, df:pd.DataFrame)->pd.DataFrame:
         """
-        remove rows that has column names. This error originated from
-        the data collection stage.  
+        Remove rows that has column names.
+        This error originated from the data collection stage.
         """
-        unwanted_rows = self.df[self.df['retweet_count'] == 'retweet_count' ].index
-        self.df.drop(unwanted_rows , inplace=True)
-        self.df = self.df[self.df['polarity'] != 'polarity']
-        
+        unwanted_rows = df[df['retweet_count'] == 'retweet_count'].index
+        self.df = df.drop(unwanted_rows, inplace=True)
+        self.df = df[df['polarity'] != 'polarity']
+
+        # self.drop_duplicate(self.df)
         return self.df
 
     def drop_duplicate(self, df:pd.DataFrame)->pd.DataFrame:
@@ -40,18 +41,13 @@ class Clean_Tweets:
         
         return self.df
     
-    def convert_to_numbers(self, df:pd.DataFrame)->pd.DataFrame:
-        """
-        convert columns like polarity, subjectivity, retweet_count
-        favorite_count etc to numbers
-        """
-        self.df['polarity'] = pd.to_numeric(self.df['polarity'], errors='coerce')
-
-        self.df['retweet_count'] = pd.to_numeric(self.df['retweet_count'], errors='coerce')
-
-        self.df['favorite_count'] = pd.to_numeric(self.df['favorite_count'], errors='coerce')
-        
+    def convert_to_numbers(self, df: pd.DataFrame) -> pd.DataFrame:
+        """Convert columns like polarity, subjectivity, favorite_count, retweet_count to numbers."""
+        self.df['polarity'] = pd.to_numeric(df['polarity'], errors='coerce')
+        self.df['retweet_count'] = pd.to_numeric(df['retweet_count'], errors='coerce')
+        self.df['favourite_count'] = pd.to_numeric(df['favourite_count'], errors='coerce')
         return self.df
+     
     
     def remove_non_english_tweets(self, df:pd.DataFrame)->pd.DataFrame:
         """
@@ -64,7 +60,7 @@ class Clean_Tweets:
 
 
 if __name__ == "__main__":
-    tweets_json = pd.read_json("./data/africa_twitter_data - Copy.json", lines=True)
+    tweets_json = pd.read_csv("./processed_tweet_data.csv")
     cleaner = Clean_Tweets(tweets_json)
 
     df = cleaner.drop_unwanted_column(cleaner.df)
