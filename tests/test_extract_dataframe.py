@@ -58,8 +58,8 @@ class TestTweetDfExtractor(unittest.TestCase):
         )
 
     def test_find_full_text(self):
-        text = ["#Pelosi airplane landed safely in #Taiwan \ud83c\uddf9\ud83c\uddfc  \n1) - Both \ud83c\udde8\ud83c\uddf3 &amp;  \ud83c\uddfa\ud83c\uddf8 are playing \"win win\" on financial markets. 2) - Taiwan may be the future Asian   Cuba  3) - \ud83c\uddfa\ud83c\uddf8 &amp; \ud83c\udde8\ud83c\uddf3 need an Asian #NATO / #5G\nWhat's your thoughts?", 
-        "Watch the video of the beginning of the Chinese bombing of Taiwan during Pelosi visit from here : https://t.co/twah6WU4fZ\nــــــــــــــــــــــــــ\n#Pelosi #マツコの知らない世界 #Yediiklim #BadDecisionsTrailer1 #LawnBowls #祝_CALL119_MV900万回 #มากอดกันนะซีพฤกษ์ https://t.co/m4CXfyZRS7", 
+        text = ["#Pelosi airplane landed safely in #Taiwan", 
+        "Watch the video of the beginning of the Chinese bombing of Taiwan during Pelosi visit from here",
         "#Pelosi \n#Taipei \n#taiwan\n#XiJinping \n#China \nOn a verge of another war https://t.co/DuqDiSnWcd",
         "#HOBIPALOOZA #LaAcademiaExpulsion #WEURO2022 #jhopeAtLollapalooza #SuzukiPakistan #Fantastico #Taiwan #breastfeeding #Kosovo #BORNPINK  strong ✍️💜 https://t.co/GtZeNL24rm",
         "#Pelosi\n#china\nChina Time ✌️ https://t.co/tEDjzTlszu"]
@@ -70,25 +70,40 @@ class TestTweetDfExtractor(unittest.TestCase):
         self.assertEqual(
             self.df.find_sentiments(self.df.find_full_text()),
             (
-                [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]
+                [0.5, 0.0, 0.0, 0.4333333333333333, 0.0], [0.5, 0.0, 0.0, 0.7333333333333333, 0.0]
             )
         )
+    
+    def test_find_created_time(self):
+        """Test find created time module."""
+        created_at = ["Wed Aug 03 20:19:13 +0000 2022", "Tue Aug 02 15:24:42 +0000 2022",
+                      "Tue Aug 02 15:02:35 +0000 2022", "Mon Aug 01 13:51:42 +0000 2022", 
+                      "Sun Jul 31 20:02:20 +0000 2022"]
 
+        self.assertEqual(self.df.find_created_time(), created_at)
 
-    def test_find_screen_name(self):
+    def test_find_screen_name(self) -> list:
         name = ['DzCritical', 'toopsat', 'NassimaLilEmy', 'd_dhayae', 'Mohamme65404115']
         self.assertEqual(self.df.find_screen_name(), name)
 
-    def test_find_followers_count(self):
+    def test_find_followers_count(self) -> list:
         f_count = [318, 764, 64, 60, 39]
         self.assertEqual(self.df.find_followers_count(), f_count)
 
-    def test_find_friends_count(self):
+    def test_find_friends_count(self) -> list:
         friends_count = [373, 144, 47, 463, 206]
         self.assertEqual(self.df.find_friends_count(), friends_count)
 
-    def test_find_is_sensitive(self):
-        self.assertEqual(self.df.is_sensitive(), [None, None, None, None, None])
+    def test_find_is_sensitive(self) -> list:
+        self.assertEqual(self.df.is_sensitive(), None)
+
+    def test_find_location(self):
+        """Test find location module."""
+        self.assertEqual(self.df.find_location(), '')
+
+    def test_find_retweet_count(self):
+        """Test find retweet count module."""
+        self.assertEqual(self.df.find_retweet_count(), [0, 0, 0, 0, 0])
 
 
     # def test_find_hashtags(self):
