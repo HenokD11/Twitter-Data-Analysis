@@ -106,6 +106,17 @@ class TestTweetDfExtractor(unittest.TestCase):
         self.assertEqual(self.df.find_retweet_count(), [0, 0, 0, 0, 0])
 
 
+    def test_find_source(self):
+        """Test find source module."""
+        source = ["<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>", 
+                  "<a href=\"https://mobile.twitter.com\" rel=\"nofollow\">Twitter Web App</a>",
+                  "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>", 
+                  "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>", 
+                  "<a href=\"http://twitter.com/download/android\" rel=\"nofollow\">Twitter for Android</a>"]
+
+        self.assertEqual(self.df.find_source(), source)
+
+
     # def test_find_hashtags(self):
     #     self.assertEqual(self.df.find_hashtags(), )
 
