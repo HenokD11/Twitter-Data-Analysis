@@ -3,23 +3,18 @@ import pandas as pd
 from textblob import TextBlob
 
 
-def read_json(json_file: str)->list:
-    """
-    json file reader to open and read json files into a list
+def read_json(json_file: str) -> list:
+    """Json file reader to open and read json files into a list.
     Args:
     -----
     json_file: str - path of a json file
-    
     Returns
     -------
     length of the json file and a list of json
     """
-    
     tweets_data = []
-    for tweets in open(json_file,'r'):
+    for tweets in open(json_file, 'r'):
         tweets_data.append(json.loads(tweets))
-    
-    
     return len(tweets_data), tweets_data
 
 class TweetDfExtractor:
@@ -44,14 +39,17 @@ class TweetDfExtractor:
 
         return statuses_count
         
-    def find_full_text(self)->list:
+    def find_full_text(self) -> list:
 
+        """_summary_statuses_count.
+        Returns:
+            list: Returns a list of full_text
+        """
         text = []
 
         for tweet in self.tweets_list:
-            if 'retweeted_status' in tweet.keys() and 'extended_tweet' in tweet['retweeted_status'].keys():
-                text.append(tweet['retweeted_status']['extended_tweet']['full_text'])
-            else: text.append('Empty')
+
+            text.append(tweet['full_text'])
 
         return text
        
@@ -223,3 +221,6 @@ if __name__ == "__main__":
     tweet_df = tweet.get_tweet_df() 
 
     # use all defined functions to generate a dataframe with the specified columns above
+
+
+    
