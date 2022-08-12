@@ -29,3 +29,26 @@ class DBoperations:
             print("Error", e)
         # conn = mysql.connector.connect(host='localhost', port="3306", user='root', password="",
             #    database=dbName)
+
+    def emojiDB(self, dbName: str) -> None:
+        conn, cur = DBoperations.DBConnect(self, 'tweets')
+        dbQuery = f"ALTER DATABASE {dbName} CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci;"
+        cur.execute(dbQuery)
+        conn.commit()
+
+    def createDB(self) -> None:
+        """
+        Parameters
+        ----------
+        dbName :
+            str:
+        dbName :
+            str:
+        dbName:str :
+        Returns
+        -------
+        """
+        conn, cur = DBoperations.DBConnect(self)
+        # cur.execute(f"CREATE DATABASE IF NOT EXISTS {dbName};")
+        conn.commit()
+        cur.close()
