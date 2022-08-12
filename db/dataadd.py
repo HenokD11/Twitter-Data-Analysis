@@ -1,10 +1,15 @@
 import numpy as np
 import pandas as pd
 import psycopg2
+import mlflow
 import streamlit as st
 from decouple import config
 from sqlalchemy import exc
 
+# Start a run
+mlflow.start_run()# Log an hyper-param
+mlflow.log_param()# Log a metric
+mlflow.log_metric()
 
 class DBoperations:
 
