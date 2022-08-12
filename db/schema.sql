@@ -1,9 +1,9 @@
 
-CREATE TABLE IF NOT EXISTS `TweetData` 
+CREATE TABLE IF NOT EXISTS `TweetInformation` 
 (
     `id` INT NOT NULL AUTO_INCREMENT,
     `created_at` TEXT DEFAULT NULL,
-    `source` VARCHAR(300) DEFAULT NULL,
+    `source` VARCHAR(200) DEFAULT NULL,
     `original_text` TEXT DEFAULT NULL,
     `clean_text` TEXT DEFAULT NULL,
     `sentiment` TEXT DEFAULT NULL,

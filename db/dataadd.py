@@ -41,6 +41,19 @@ class DBoperations:
         Parameters
         ----------
         dbName :
+        dbName:str :
+        Returns
+        -------
+        """
+        conn, cur = DBoperations.DBConnect(self)
+        conn.commit()
+        cur.close()
+
+    def createTables(self, dbName: str) -> None:
+        """
+        Parameters
+        ----------
+        dbName :
             str:
         dbName :
             str:
@@ -48,7 +61,42 @@ class DBoperations:
         Returns
         -------
         """
-        conn, cur = DBoperations.DBConnect(self)
-        # cur.execute(f"CREATE DATABASE IF NOT EXISTS {dbName};")
+        conn, cur = DBoperations.DBConnect(self, 'tweets')
+        sqlFile = 'schema.sql'
+        fd = open(sqlFile, 'r')
+        readSqlFile = fd.read()
+        fd.close()
+
+        sqlCommands = readSqlFile.split(';')
+
+        for command in sqlCommands:
+            try:
+                res = cur.execute(command)
+            except Exception as ex:
+                print("Command skipped: ", command)
+                print(ex)
         conn.commit()
         cur.close()
+
+        return
+
+    def preprocess_df(self, df: pd.DataFrame) -> pd.DataFrame:
+        """
+        Parameters
+        ----------
+        df :
+            pd.DataFrame:
+        df :
+            pd.DataFrame:
+        df:pd.DataFrame :
+        Returns
+        -------
+        """
+        dropcols = ['Unnamed: 0', 'possibly_sensitive']
+        try:
+            df = df.drop(columns=dropcols, axis=1)
+            df = df.fillna(0)
+        except KeyError as e:
+            print("Error:", e)
+
+        return 
