@@ -92,11 +92,110 @@ class DBoperations:
         Returns
         -------
         """
-        dropcols = ['Unnamed: 0', 'possibly_sensitive']
+        dropcols = ['possibly_sensitive']
         try:
             df = df.drop(columns=dropcols, axis=1)
-            df = df.fillna(0)
+            df = df.fillna('0')
         except KeyError as e:
             print("Error:", e)
 
         return 
+
+    def insert_to_tweet_table(self, dbName: str, df: pd.DataFrame, table_name: str) -> None:
+        """
+        Parameters
+        ----------
+        dbName :
+            str:
+        df :
+            pd.DataFrame:
+        table_name :
+            str:
+        dbName:str :
+        df:pd.DataFrame :
+        table_name:str :
+        Returns
+        -------
+        """
+        conn, cur = DBoperations.DBConnect(self, 'tweets')
+
+        df = DBoperations.preprocess_df(self, df)
+
+        for row, new in df.iterrows():
+            
+            sqlQuery = f"""INSERT INTO {table_name} (created_at, source, original_text, polarity, subjectivity, lang,
+                        favourite_count, retweet_count, original_author, followers_count, friends_count, 
+                        hashtags, user_mentions, place, clean_text, sentiment)
+                VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
+
+            data = (row[1], row[2], row[3], (row[4]), (row[5]), row[6], row[7], row[8], row[9], row[10], row[11],
+                    row[12], row[13], row[14], row[15], row[16])
+
+            try:
+                # Execute the SQL command
+                cur.execute(sqlQuery, data)
+                # Commit changes in the database
+                conn.commit()
+                print("Data Inserted Successfully")
+            except Exception as e:
+                conn.rollback()
+                print("Error: ", e)
+        return
+
+    def db_execute_fetch(self, *args, many=False, tablename='', rdf=True, **kwargs) -> pd.DataFrame:
+        """
+        Parameters
+        ----------
+        *args :
+        many :
+            (Default value = False)
+        tablename :
+            (Default value = '')
+        rdf :
+            (Default value = True)
+        **kwargs :
+        Returns
+        -------
+        """
+        connection, cursor1 = DBoperations.DBConnect(self, 'tweets')
+        if many:
+            cursor1.executemany(*args)
+        else:
+            cursor1.execute(*args)
+
+        # get column names
+        field_names = [i[0] for i in cursor1.description]
+
+        # get column values
+        res = cursor1.fetchall()
+
+        # get row count and show info
+        nrow = cursor1.rowcount
+        if tablename:
+            print(f"{nrow} records from {tablename} table")
+
+        cursor1.close()
+        connection.close()
+
+        # return result
+        if rdf:
+            return pd.DataFrame(res, columns=field_names)
+        else:
+            return res
+
+
+st.set_page_config(page_title="Dashboard", layout="wide")
+
+
+if __name__ == '__main__':
+    host = 'localhost'
+    database = '10x-DataAnalysis'
+    user = 'postgres'
+    password = 2142
+    port = 5432
+    db1 = DBoperations(host, database, user, password, port)
+    db1.createDB()
+
+
+    df = pd.read_csv('./cleaned_tweet_data.csv', sep ="," , encoding='utf-8')[2000:5000]
+    db1.insert_to_tweet_table('10x-DataAnalysis', df=df, table_name='tweetinformation')
