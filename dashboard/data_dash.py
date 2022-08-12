@@ -5,14 +5,14 @@ import altair as alt
 from pandas_profiling import ProfileReport
 from wordcloud import WordCloud
 import plotly.express as px
-# from add_data import db_execute_fetch
+#from .dataadd import db_execute_fetch
 
 
 
 st.set_page_config(page_title="Data Dash", layout="wide")
 
-'''
-def loadData():
+
+'''def loadData():
     query = "select * from TweetInformation"
     df = db_execute_fetch(query, dbName="tweets", rdf=True)
     return df'''

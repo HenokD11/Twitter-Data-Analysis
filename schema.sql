@@ -1,5 +1,5 @@
 
-CREATE TABLE IF NOT EXISTS `TweetData` 
+CREATE TABLE IF NOT EXISTS `TweetInformation` 
 (
     `id` INT NOT NULL AUTO_INCREMENT,
     `created_at` TEXT DEFAULT NULL,
