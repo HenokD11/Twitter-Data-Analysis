@@ -198,4 +198,4 @@ if __name__ == '__main__':
 
 
     df = pd.read_csv('./cleaned_tweet_data.csv', sep ="," , encoding='utf-8')[2000:5000]
-    db1.insert_to_tweet_table('10x-DataAnalysis', df=df, table_name='tweetinformation')
+    db1.insert_to_tweet_table('tweets', df=df, table_name='tweetinformation')
