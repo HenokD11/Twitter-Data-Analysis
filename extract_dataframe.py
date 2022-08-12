@@ -17,7 +17,6 @@ def read_json(json_file: str) -> list:
         tweets_data.append(json.loads(tweets))
     return len(tweets_data), tweets_data
 
-
 class TweetDfExtractor:
     """Return  function will parse tweets json into a pandas dataframe.
     Return
@@ -224,6 +223,7 @@ if __name__ == "__main__":
                'screen_count', 'followers_count', 'friends_count',
                'possibly_sensitive', 'hashtags', 'user_mentions',
                'place', 'place_coord_boundaries']
+
     _, tweet_list = read_json("./data/africa_twitter_data - Copy.json")
 
     tweet = TweetDfExtractor(tweet_list)
